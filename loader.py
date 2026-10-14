@@ -1,12 +1,32 @@
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+import urllib.parse
 import psycopg
 from psycopg.rows import dict_row
 
 load_dotenv()
 
-db_url = os.environ["DATABASE_URL"]
+
+def get_database_url() -> str:
+    """Builds the PostgreSQL connection URL from component environment variables,
+    falling back to DATABASE_URL if present."""
+    if "DATABASE_URL" in os.environ and os.environ["DATABASE_URL"]:
+        return os.environ["DATABASE_URL"]
+
+    user = os.environ.get("PGUSER", "")
+    password = urllib.parse.quote(os.environ.get("PGPASSWORD", ""), safe="")
+    host = os.environ.get("PGHOST", "localhost")
+    port = os.environ.get("PGPORT", "5432")
+    dbname = os.environ.get("PGDATABASE", "postgres")
+    sslmode = os.environ.get("PGSSLMODE", "require")
+
+    auth = f"{user}:{password}@" if user else ""
+    return f"postgresql://{auth}{host}:{port}/{dbname}?sslmode={sslmode}"
+
+
+db_url = get_database_url()
+
 
 
 def execute_sql_file(conn: psycopg.Connection, file_path: Path) -> None:
