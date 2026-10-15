@@ -1,15 +1,17 @@
-import pandas as pd
-import requests
 from math import ceil
 
-BASE_URL="http://20.228.134.116:8000/antojitos"
-MAX_LIMIT_ORDENES=200
+import pandas as pd
+import requests
+
+BASE_URL = "http://20.228.134.116:8000/antojitos"
+MAX_LIMIT_ORDENES = 200
+
 
 def get_num_batches(path: str):
     # Solicitud de metadata
-    res = requests.get(f"{BASE_URL}{path}", params={'limit':1}).json()
+    res = requests.get(f"{BASE_URL}{path}", params={"limit": 1}).json()
 
-    # Extraer el total de items 
+    # Extraer el total de items
     total: int = res["total"]
 
     # Calcualar cantidad de batchs
@@ -23,13 +25,9 @@ def get_data(path: str):
     num_batchs = get_num_batches(path)
 
     for i in range(num_batchs):
-
         offset = i * MAX_LIMIT_ORDENES
-        
-        params = {
-            "offset": offset,
-            "limit": MAX_LIMIT_ORDENES
-        }
+
+        params = {"offset": offset, "limit": MAX_LIMIT_ORDENES}
 
         print(f"{i}| Obteniendo datos de {path} con: {params}")
 
