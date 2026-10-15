@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw tables loaded from Antojitos Express API into PostgreSQL"
+    schema: "{{ env_var('PGSCHEMA', 'public') }}"
+    tables:
+      - name: zonas
+        description: "Delivery zones with geographical and base rate information"
+      - name: repartidores
+        description: "Delivery drivers and their vehicles, ratings, and status"
+      - name: categorias_platillo
+        description: "Food categories and contribution margin percentages"
+      - name: platillos
+        description: "Menu dishes with prices, ingredient costs, and prep time"
+      - name: promociones
+        description: "Promotional campaigns with costs, expected returns, and discounts"
+      - name: clima_diario
+        description: "Daily weather conditions in Managua (precipitation, temp, sky condition)"
+      - name: ordenes
+        description: "Customer orders, payment methods, delivery status, and costs"
+      - name: detalle_ordenes
+        description: "Line items per order linking to platillos, quantities, and subtotals"

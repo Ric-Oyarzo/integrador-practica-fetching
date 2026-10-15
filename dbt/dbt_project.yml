@@ -1,7 +1,7 @@
-name: 'katherin'
+name: 'antojitos_transformations'
 version: '1.0.0'
 
-profile: 'katherin'
+profile: 'antojitos_transformations'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -15,5 +15,6 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  katherin:
+  antojitos_transformations:
     +materialized: view
+
