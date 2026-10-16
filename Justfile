@@ -1,5 +1,6 @@
 set dotenv-load := true
-set shell := ["bash", "-c"]
+export PATH := justfile_directory() + '/.venv/bin:' + env('PATH')
+set shell := ["powershell.exe", "-c"]
 
 # Default recipe: list available recipes
 default:
@@ -12,3 +13,7 @@ dbt *args="debug":
 # Run the database schema loader / migration
 load:
     .venv/bin/python loader.py
+
+
+fetch:
+    python fetcher.py

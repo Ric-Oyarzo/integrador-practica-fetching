@@ -3,7 +3,7 @@ from math import ceil
 import pandas as pd
 import requests
 
-BASE_URL = "http://20.228.134.116:8000/antojitos"
+BASE_URL = "http://20.228.134.116:8000/movigo"
 MAX_LIMIT_ORDENES = 200
 
 
@@ -41,3 +41,24 @@ def get_data(path: str):
     df = pd.concat(dfs)
 
     return df
+
+def main():
+    RAW_FOLDER = "./data/raw"
+
+    endpoints = [
+    'zonas',
+    'usuarios',
+    'conductores',
+    'campanas',
+    'clima',
+    'viajes',
+    'telemetria'
+    ]
+
+
+    for endpoint in endpoints:
+        df = get_data(f"/{endpoint}")
+        df.to_parquet(f"{RAW_FOLDER}/{endpoint}.parquet")
+
+if __name__ == "__main__":
+    main()
